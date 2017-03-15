@@ -347,7 +347,7 @@ public class GameOfLife {
         clearWorld(world);
         System.out.printf("Enter a pattern using %c for alive and %c as dead cells.\n", Config.ALIVE, Config.DEAD);
         System.out.println("To end the pattern, type END on its own line.");
-	for (int i=0; i < Config.WORLD_ROWS && !done; i++) {
+	for (int i=0; !done; i++) {
 	    done = initializeCustomRow(input, i, world);
 	}
     }
@@ -361,9 +361,12 @@ public class GameOfLife {
 	    return true;
 	}
 
-	for (int j=0; j < lastChar; j++) {
+        if ((row >= 0) && row < Config.WORLD_ROWS) {
+          for (int j=0; j < lastChar; j++) {
 	    world[row][j] = (rowInput.charAt(j) == Config.ALIVE);
-	}
+          }
+        }
+  
 	return false;
     }
 
@@ -564,7 +567,7 @@ public class GameOfLife {
     public static int shall_we_continue(Scanner s) {
 	System.out.printf("Press Enter for next generation, 'end' to stop: ");
 	String in = s.nextLine();
-	if (in.equals("end")) {
+	if (in.trim().toLowerCase().equals("end")) {
 	    return 0;
 	}
 	return 1;
